@@ -8,8 +8,8 @@ const createCurrentDomString = (weatherArray, days) => {
 	console.log("weatherArray", weatherArray);
 		currentString += 	`<h2>City: ${weatherArray.city.name}<h2>`;
 
-		for (let i = 0; i < days; i++) {
-			// if (i === 0) {
+		for (let i = 0; i < weatherArray.list.length; i++) {
+			if (i === 0) {
 		currentString += `<div>`;
 		currentString += 	`<h2>Temperature: ${weatherArray.list[i].main.temp}</h1>`;
 		currentString += 	`<h2>Conditions: ${weatherArray.list[i].weather[0].description}</h4>`;
@@ -18,7 +18,7 @@ const createCurrentDomString = (weatherArray, days) => {
 		currentString += `</div>`;
 		currentString += `</div>`;
 	printCurrentToDom(currentString);
-	// }
+	}
 	}	
 };
 
@@ -26,17 +26,5 @@ const printCurrentToDom = (strang) => {
 	outputDiv.append(strang);
 };
 
-// const createForecastDomString = () => {
-// 	var forecastString = "";
-// 		for (let i = 0; i < weatherArray.length; i++);
-// 			forecastString += `<div>`;
-// 			forecastString
-// }
 
 module.exports = {createCurrentDomString};
-
-// Temperature
-// Conditions
-// Air pressure
-// Wind speed
-// An affordance to view the forecast for the current day, the next three days, or the next 7 days
