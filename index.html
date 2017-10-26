@@ -6,12 +6,46 @@
 	<title>Weather</title>
 </head>
 <body>
+	<nav class="navbar navbar-static-top navbar-inverse">
+	    <div class="container-fluid">
+	      <!-- Brand and toggle get grouped for better mobile display -->
+	      <div class="navbar-header">
+	        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	          <span class="sr-only">Toggle navigation</span>
+	          <span class="icon-bar"></span>
+	          <span class="icon-bar"></span>
+	          <span class="icon-bar"></span>
+	        </button>
+	        <a class="navbar-brand" href="#">Weather App</a>
+	      </div>
 
-<div class="input-group input-group-lg col-xs-6 col-xs-offset-3">
-  <input type="text" class="form-control" placeholder="Type your 5-digit zip code" id="zipInputField">
-  <button type="submit" id="currentForecastButton">Current Forecast</button>
-  <button type="submit" id="threeDayButton" class="hidden">3 Day Forecast</button>
-  <button type="submit" id="fiveDayButton" class="hidden">5 Day Forecast</button>
+	      <!-- Collect the nav links, forms, and other content for toggling -->
+	      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	        <ul class="nav navbar-nav navbar-right">
+	          <li><a id="authenticate">Authenticate</a></li>
+	          <li><a id="myWeather">My Saved Forecasts</a></li>
+	          <li><a id="navSearch">Search</a></li>
+	        </ul>
+	      </div><!-- /.navbar-collapse -->
+	    </div><!-- /.container-fluid -->
+  </nav>
+
+  <div class="text-center" id="authScreen">
+    <h1>Sign In</h1>
+    <button class="btn btn-lg btn-default" id="googleButton">
+      <img src="./images/sign-in-with-google.png">
+    </button>
+  </div>
+
+
+<div class="text-center hide" id="search">
+	<div class="input-group input-group-lg col-xs-6 col-xs-offset-3">
+		<span class="input-group-addon glyphicon glyphicon-search" aria-hidden="true"></span>
+  		<input type="text" class="form-control" placeholder="Type your 5-digit zip code" id="zipInputField">
+  		<button type="submit" id="currentForecastButton">Current Forecast</button>
+  		<button type="submit" id="threeDayButton" class="hidden">3 Day Forecast</button>
+  		<button type="submit" id="fiveDayButton" class="hidden">5 Day Forecast</button>
+	</div>
 </div>
 
 <div id="weatherHolder">

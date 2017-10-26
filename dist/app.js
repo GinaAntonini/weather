@@ -34,8 +34,8 @@ const createCurrentDomString = (weatherArray, days) => {
 	console.log("weatherArray", weatherArray);
 		currentString += 	`<h2>City: ${weatherArray.city.name}<h2>`;
 
-		for (let i = 0; i < days; i++) {
-			// if (i === 0) {
+		for (let i = 0; i < weatherArray.list.length; i++) {
+			if (i === 0) {
 		currentString += `<div>`;
 		currentString += 	`<h2>Temperature: ${weatherArray.list[i].main.temp}</h1>`;
 		currentString += 	`<h2>Conditions: ${weatherArray.list[i].weather[0].description}</h4>`;
@@ -44,7 +44,7 @@ const createCurrentDomString = (weatherArray, days) => {
 		currentString += `</div>`;
 		currentString += `</div>`;
 	printCurrentToDom(currentString);
-	// }
+	}
 	}	
 };
 
@@ -52,24 +52,21 @@ const printCurrentToDom = (strang) => {
 	outputDiv.append(strang);
 };
 
-// const createForecastDomString = () => {
-// 	var forecastString = "";
-// 		for (let i = 0; i < weatherArray.length; i++);
-// 			forecastString += `<div>`;
-// 			forecastString
-// }
 
 module.exports = {createCurrentDomString};
 
-// Temperature
-// Conditions
-// Air pressure
-// Wind speed
-// An affordance to view the forecast for the current day, the next three days, or the next 7 days
 },{}],3:[function(require,module,exports){
 "use strict";
 
 const weather = require('./weather');
+
+// have a way for a user's selection to send the apporpriate array from weather.js to dom.js
+
+// instead of sending numbers, as below, which would have send only index 1, 3 and 5 from weatherArray ...
+	// send the correct array from weather.js, the ones trimmed to the correct times/days
+let oneDay = 1;
+let threeDay = 3;
+let fiveDay = 5;
 
 const pressEnter = () => {
 	$(document).keypress((e) => {
@@ -77,9 +74,19 @@ const pressEnter = () => {
 			let searchText = $('#zipInputField').val();
 			validateInput();
 			// let query = searchText.replace(/\s/g, "%20");
-			weather.searchWeather(searchText);
-			console.log("event", e);
+			weather.searchWeather(searchText, oneDay);
+			$('#threeDayButton').removeClass('hidden');
+			$('#fiveDayButton').removeClass('hidden');
 		}
+	});
+};
+
+const forecastButtons = (searchText, days) => {
+	$('#threeDayButton').click((e) => {
+		weather.searchWeather(searchText, threeDay);
+	});
+	$('#fiveDayButton').click((e) => {
+		weather.searchWeather(searchText, fiveDay);
 	});
 };
 
@@ -104,6 +111,8 @@ module.exports = {pressEnter, submitButton};
 
 // || $('#currentForecastButton').click(())
 
+
+
 },{"./weather":5}],4:[function(require,module,exports){
 "use strict";
 
@@ -116,7 +125,6 @@ apiKeys.retrieveKeys();
 
 },{"./apiKeys":1,"./events":3}],5:[function(require,module,exports){
 "use strict";
-
 // accessing the apiKeys using the apiKeys.js
 const dom = require('./dom');
 let weatherKey;

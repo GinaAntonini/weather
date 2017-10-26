@@ -1,5 +1,4 @@
 "use strict";
-
 // accessing the apiKeys using the apiKeys.js
 const dom = require('./dom');
 let weatherKey;
