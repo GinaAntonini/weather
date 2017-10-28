@@ -2,6 +2,7 @@
 "use strict";
 
 const weather = require('./weather');
+const firebaseApi = require('./firebaseApi');
 
 const apiKeys = () => {
 	return new Promise((resolve, reject) => {
@@ -17,13 +18,15 @@ const retrieveKeys = () => {
 	apiKeys().then((results) => {
 		console.log(results);
 		weather.setKey(results.weather.apiKey);
+		firebaseApi.setKey(results.firebaseKeys);
+	    firebase.initializeApp(results.firebaseKeys);
 	}).catch((error) => {
 		console.log("error in retrieve keys", error);
 	});
 };
 
 module.exports = {retrieveKeys};
-},{"./weather":5}],2:[function(require,module,exports){
+},{"./firebaseApi":4,"./weather":6}],2:[function(require,module,exports){
 "use strict";
 
 const outputDiv = $('#weatherHolder');
@@ -59,6 +62,7 @@ module.exports = {createCurrentDomString};
 "use strict";
 
 const weather = require('./weather');
+const firebaseApi = require('./firebaseApi');
 
 // have a way for a user's selection to send the apporpriate array from weather.js to dom.js
 
@@ -105,15 +109,66 @@ const validateInput = (zip) => {
 	} 
 };
 
+const googleAuth = () => {
+	$('#googleButton').click((e) =>{
+		firebaseApi.authenticateGoogle().then().catch((err) =>{
+			console.log("error in authenticateGoogle", err);
+		});
+	});
+};
+
+const myLinks = () => {
+	$(document).click((e) =>{
+		if(e.target.id === "weatherSearchBar"){
+			$("#search").removeClass("hide");
+			$("#myWeather").addClass("hide");
+			$("#authScreen").addClass("hide");
+		}else if (e.target.id === "myWeatherForecasts") {
+			$("#search").addClass("hide");
+			$("#myWeather").removeClass("hide");
+			$("#authScreen").addClass("hide");
+		}else if (e.target.id === "authenticate"){
+			$("#search").addClass("hide");
+			$("#myWeather").addClass("hide");
+			$("#authScreen").removeClass("hide");
+		}
+	});
+};
+
 // const valueIsFiveDigits = if($('#zipInputField').val() is )
 
-module.exports = {pressEnter, submitButton};
+module.exports = {pressEnter, submitButton, myLinks, googleAuth};
 
 // || $('#currentForecastButton').click(())
 
 
 
-},{"./weather":5}],4:[function(require,module,exports){
+},{"./firebaseApi":4,"./weather":6}],4:[function(require,module,exports){
+"use strict";
+
+let firebaseKey = "";
+let userUid = "";
+
+const setKey = (key) => {
+	firebaseKey = key;
+};
+
+let authenticateGoogle = () => {
+	return new Promise((resolve, reject) => {
+		console.log(firebaseKey);
+	  var provider = new firebase.auth.GoogleAuthProvider();
+	  firebase.auth().signInWithPopup(provider)
+	    .then((authData) => {
+	    	userUid = authData.user.uid;
+	        resolve(authData.user);
+	    }).catch((error) => {
+	        reject(error);
+	    });
+	});
+};
+
+module.exports = {setKey, authenticateGoogle};
+},{}],5:[function(require,module,exports){
 "use strict";
 
 const events = require('./events');
@@ -121,9 +176,11 @@ const apiKeys = require('./apiKeys');
 
 events.pressEnter();
 events.submitButton();
+events.googleAuth();
+events.myLinks();
 apiKeys.retrieveKeys();
 
-},{"./apiKeys":1,"./events":3}],5:[function(require,module,exports){
+},{"./apiKeys":1,"./events":3}],6:[function(require,module,exports){
 "use strict";
 // accessing the apiKeys using the apiKeys.js
 const dom = require('./dom');
@@ -189,4 +246,4 @@ const showForecastWeather = (weatherArray) => {
 
 module.exports = {searchWeather, setKey};
 
-},{"./dom":2}]},{},[4]);
+},{"./dom":2}]},{},[5]);

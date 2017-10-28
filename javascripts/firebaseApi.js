@@ -3,12 +3,13 @@
 let firebaseKey = "";
 let userUid = "";
 
-const setKey = (key) =>{
+const setKey = (key) => {
 	firebaseKey = key;
 };
 
 let authenticateGoogle = () => {
 	return new Promise((resolve, reject) => {
+		console.log(firebaseKey);
 	  var provider = new firebase.auth.GoogleAuthProvider();
 	  firebase.auth().signInWithPopup(provider)
 	    .then((authData) => {

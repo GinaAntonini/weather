@@ -23,8 +23,8 @@
 	      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	        <ul class="nav navbar-nav navbar-right">
 	          <li><a id="authenticate">Authenticate</a></li>
-	          <li><a id="myWeather">My Saved Forecasts</a></li>
-	          <li><a id="navSearch">Search</a></li>
+	          <li><a id="myWeatherForecasts">My Saved Forecasts</a></li>
+	          <li><a id="weatherSearchBar">Search Weather</a></li>
 	        </ul>
 	      </div><!-- /.navbar-collapse -->
 	    </div><!-- /.container-fluid -->
@@ -40,7 +40,6 @@
 
 <div class="text-center hide" id="search">
 	<div class="input-group input-group-lg col-xs-6 col-xs-offset-3">
-		<span class="input-group-addon glyphicon glyphicon-search" aria-hidden="true"></span>
   		<input type="text" class="form-control" placeholder="Type your 5-digit zip code" id="zipInputField">
   		<button type="submit" id="currentForecastButton">Current Forecast</button>
   		<button type="submit" id="threeDayButton" class="hidden">3 Day Forecast</button>
@@ -48,10 +47,14 @@
 	</div>
 </div>
 
-<div id="weatherHolder">
+<div id="weatherHolder" class="container">
 </div>
+<div class="text-center hide" id="myWeather">
+    <h1>My Saved Forecasts</h1>
+    <div id="forecastsMine"></div>
+ </div>
 
-
+<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
 <script type="text/javascript" src="./lib/node_modules/jquery/dist/jquery.js"></script>
 <script type="text/javascript" src="./lib/node_modules/bootstrap/dist/js/bootstrap.js"></script>
 <script type="text/javascript" src="./dist/app.js"></script>
