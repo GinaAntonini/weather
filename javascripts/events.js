@@ -1,6 +1,7 @@
 "use strict";
 
 const weather = require('./weather');
+const firebaseApi = require('./firebaseApi');
 
 // have a way for a user's selection to send the apporpriate array from weather.js to dom.js
 
@@ -47,9 +48,35 @@ const validateInput = (zip) => {
 	} 
 };
 
+const googleAuth = () => {
+	$('#googleButton').click((e) =>{
+		firebaseApi.authenticateGoogle().then().catch((err) =>{
+			console.log("error in authenticateGoogle", err);
+		});
+	});
+};
+
+const myLinks = () => {
+	$(document).click((e) =>{
+		if(e.target.id === "weatherSearchBar"){
+			$("#search").removeClass("hide");
+			$("#myWeather").addClass("hide");
+			$("#authScreen").addClass("hide");
+		}else if (e.target.id === "myWeatherForecasts") {
+			$("#search").addClass("hide");
+			$("#myWeather").removeClass("hide");
+			$("#authScreen").addClass("hide");
+		}else if (e.target.id === "authenticate"){
+			$("#search").addClass("hide");
+			$("#myWeather").addClass("hide");
+			$("#authScreen").removeClass("hide");
+		}
+	});
+};
+
 // const valueIsFiveDigits = if($('#zipInputField').val() is )
 
-module.exports = {pressEnter, submitButton};
+module.exports = {pressEnter, submitButton, myLinks, googleAuth};
 
 // || $('#currentForecastButton').click(())
 

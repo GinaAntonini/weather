@@ -1,6 +1,7 @@
 "use strict";
 
 const weather = require('./weather');
+const firebaseApi = require('./firebaseApi');
 
 const apiKeys = () => {
 	return new Promise((resolve, reject) => {
@@ -16,6 +17,8 @@ const retrieveKeys = () => {
 	apiKeys().then((results) => {
 		console.log(results);
 		weather.setKey(results.weather.apiKey);
+		firebaseApi.setKey(results.firebaseKeys);
+	    firebase.initializeApp(results.firebaseKeys);
 	}).catch((error) => {
 		console.log("error in retrieve keys", error);
 	});

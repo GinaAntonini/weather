@@ -5,4 +5,6 @@ const apiKeys = require('./apiKeys');
 
 events.pressEnter();
 events.submitButton();
+events.googleAuth();
+events.myLinks();
 apiKeys.retrieveKeys();
