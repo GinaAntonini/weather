@@ -15,7 +15,6 @@ const apiKeys = () => {
 
 const retrieveKeys = () => {
 	apiKeys().then((results) => {
-		console.log(results);
 		weather.setKey(results.weather.apiKey);
 		firebaseApi.setKey(results.firebaseKeys);
 	    firebase.initializeApp(results.firebaseKeys);

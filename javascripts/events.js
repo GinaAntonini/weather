@@ -26,10 +26,10 @@ const pressEnter = () => {
 
 const forecastButtons = (searchText, days) => {
 	$('#threeDayButton').click((e) => {
-		weather.searchWeather(searchText, threeDay);
+		weather.searchWeather(searchText);
 	});
 	$('#fiveDayButton').click((e) => {
-		weather.searchWeather(searchText, fiveDay);
+		weather.searchWeather(searchText);
 	});
 };
 
@@ -76,7 +76,7 @@ const myLinks = () => {
 
 // const valueIsFiveDigits = if($('#zipInputField').val() is )
 
-module.exports = {pressEnter, submitButton, myLinks, googleAuth};
+module.exports = {pressEnter, submitButton, forecastButtons, myLinks, googleAuth};
 
 // || $('#currentForecastButton').click(())
 

@@ -9,7 +9,6 @@ const setKey = (key) => {
 
 let authenticateGoogle = () => {
 	return new Promise((resolve, reject) => {
-		console.log(firebaseKey);
 	  var provider = new firebase.auth.GoogleAuthProvider();
 	  firebase.auth().signInWithPopup(provider)
 	    .then((authData) => {
