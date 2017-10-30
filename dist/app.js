@@ -16,7 +16,6 @@ const apiKeys = () => {
 
 const retrieveKeys = () => {
 	apiKeys().then((results) => {
-		console.log(results);
 		weather.setKey(results.weather.apiKey);
 		firebaseApi.setKey(results.firebaseKeys);
 	    firebase.initializeApp(results.firebaseKeys);
@@ -36,10 +35,10 @@ const createCurrentDomString = (weatherArray, days) => {
 	var currentString = "";
 	console.log("weatherArray", weatherArray);
 		currentString += 	`<h2>City: ${weatherArray.city.name}<h2>`;
-
 		for (let i = 0; i < weatherArray.list.length; i++) {
 			if (i === 0) {
 		currentString += `<div>`;
+		currentString += 	`<h2>Date: ${weatherArray.list[i].dt_txt}</h2>`;
 		currentString += 	`<h2>Temperature: ${weatherArray.list[i].main.temp}</h1>`;
 		currentString += 	`<h2>Conditions: ${weatherArray.list[i].weather[0].description}</h4>`;
 		currentString += 	`<h2>Air Pressure: ${weatherArray.list[i].main.pressure}</h4>`;
@@ -55,8 +54,12 @@ const printCurrentToDom = (strang) => {
 	outputDiv.append(strang);
 };
 
+const clearDom = () => {
+	$("#output").empty();
+};
 
-module.exports = {createCurrentDomString};
+
+module.exports = {createCurrentDomString, clearDom};
 
 },{}],3:[function(require,module,exports){
 "use strict";
@@ -87,10 +90,10 @@ const pressEnter = () => {
 
 const forecastButtons = (searchText, days) => {
 	$('#threeDayButton').click((e) => {
-		weather.searchWeather(searchText, threeDay);
+		weather.searchWeather(searchText);
 	});
 	$('#fiveDayButton').click((e) => {
-		weather.searchWeather(searchText, fiveDay);
+		weather.searchWeather(searchText);
 	});
 };
 
@@ -137,7 +140,7 @@ const myLinks = () => {
 
 // const valueIsFiveDigits = if($('#zipInputField').val() is )
 
-module.exports = {pressEnter, submitButton, myLinks, googleAuth};
+module.exports = {pressEnter, submitButton, forecastButtons, myLinks, googleAuth};
 
 // || $('#currentForecastButton').click(())
 
@@ -155,7 +158,6 @@ const setKey = (key) => {
 
 let authenticateGoogle = () => {
 	return new Promise((resolve, reject) => {
-		console.log(firebaseKey);
 	  var provider = new firebase.auth.GoogleAuthProvider();
 	  firebase.auth().signInWithPopup(provider)
 	    .then((authData) => {
@@ -182,7 +184,7 @@ apiKeys.retrieveKeys();
 
 },{"./apiKeys":1,"./events":3}],6:[function(require,module,exports){
 "use strict";
-// accessing the apiKeys using the apiKeys.js
+
 const dom = require('./dom');
 let weatherKey;
 
@@ -203,7 +205,6 @@ const setKey = (apiKey) => {
 const searchWeather = (query) => {
   searchDatabase(query).then((data) => {
   	showForecastWeather(data);
-    showCurrentWeather(data);
   }).catch((error) => {
     console.log("error in searchWeather", error);
   });
@@ -214,25 +215,18 @@ const showCurrentWeather = (weatherArray) => {
     dom.createCurrentDomString(weatherArray);
 };
 
-
-// have these 3 arrays ready to be sent ...
-	// when the user selects the button coresponding to the array
-
 const showForecastWeather = (weatherArray) => {
 	let currentWeather = [];
 	let threeDayForecast = [];
 	let fiveDayForecast = [];
 	for(let i = 0; i < weatherArray.list.length; i++) {
-		// when i hits index 0 ...
-			// add it to all three arrays
-		// when i hits 8 and 16 ...
-		 	// add those two to threeDayForecast and fiveDayForecast
-	 	// when i hits 24 and 32 ...
-	 		// add them to fiveDayForecast
 		if(i === 0) {
 			currentWeather.push(weatherArray.list[i]);
+			threeDayForecast.push(weatherArray.list[i]);
+			fiveDayForecast.push(weatherArray.list[i]);
 		} else if (i === 0 || i === 8 || i === 16) {
 			threeDayForecast.push(weatherArray.list[i]);
+			fiveDayForecast.push(weatherArray.list[i]);
 		} else if (i === 0 || i === 8 || i === 16 || i === 24 || i === 32) {
 			fiveDayForecast.push(weatherArray.list[i]);
 		}
@@ -240,7 +234,7 @@ const showForecastWeather = (weatherArray) => {
 	console.log("current weather", currentWeather);
 	console.log("three day", threeDayForecast);
 	console.log("five day", fiveDayForecast);
-	// dom.createCurrentDomString(weatherArray);
+	dom.createCurrentDomString(weatherArray);
 };
 
 
